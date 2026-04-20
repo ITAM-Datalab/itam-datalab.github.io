@@ -226,7 +226,7 @@ const Header: React.FC = () => {
         {/* Logo */}
         <LogoLink to="/">
           <img 
-            src="/logo_datalab_con_texto.jpg" 
+            src={`${process.env.PUBLIC_URL ?? ''}/logo_datalab_con_texto.jpg`}
             alt="DataLab ITAM" 
             style={{ height: '40px', width: 'auto' }}
           />
@@ -273,7 +273,7 @@ const Header: React.FC = () => {
               <MobileMenuHeader>
                 <LogoLink to="/">
                   <img 
-                    src="/logo_datalab_con_texto.jpg" 
+                    src={`${process.env.PUBLIC_URL ?? ''}/logo_datalab_con_texto.jpg`}
                     alt="DataLab ITAM" 
                     style={{ height: '36px', width: 'auto' }}
                   />

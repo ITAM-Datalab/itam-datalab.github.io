@@ -193,7 +193,7 @@ const Footer: React.FC = () => {
           <FooterSection>
             <FooterLogo>
               <img
-                src="/logo_datalab_con_texto.jpg"
+                src={`${process.env.PUBLIC_URL ?? ''}/logo_datalab_con_texto.jpg`}
                 alt="DataLab ITAM"
                 style={{
                   height: '48px',

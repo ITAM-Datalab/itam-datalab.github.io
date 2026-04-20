@@ -2,6 +2,7 @@
   "name": "datalab-frontend",
   "version": "1.0.0",
   "description": "Frontend para página web DataLab ITAM",
+  "homepage": "https://itam-datalab.github.io",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

@@ -430,7 +430,7 @@ const Home: React.FC = () => {
               </StatsGrid>
               <div style={{ textAlign: 'center' }}>
                 <img 
-                  src="/logo_png.png" 
+                  src={`${process.env.PUBLIC_URL ?? ''}/logo_png.png`}
                   alt="DataLab ITAM" 
                   style={{ 
                     width: '64px', 

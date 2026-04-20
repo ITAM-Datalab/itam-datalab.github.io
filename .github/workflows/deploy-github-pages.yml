@@ -1,0 +1,64 @@
+# Deploy static frontend to GitHub Pages (organization site: https://itam-datalab.github.io/)
+#
+# One-time GitHub setup (repo ITAM-Datalab/itam-datalab.github.io):
+# - Settings → Pages → Build and deployment → Source: GitHub Actions
+# - Optional: Settings → Secrets and variables → Actions → Variables:
+#   REACT_APP_API_URL = https://your-api.example.com/api
+#   (or define the same name as a Repository secret instead of a variable)
+# - First deploy may require approving the `github-pages` environment once
+
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install, build, SPA fallback
+        working-directory: frontend
+        env:
+          CI: false
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL || vars.REACT_APP_API_URL }}
+        run: |
+          npm ci
+          npm run build
+          cp build/index.html build/404.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
