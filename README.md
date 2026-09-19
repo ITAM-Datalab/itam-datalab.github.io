@@ -137,7 +137,7 @@ npm run build
     "values": [...]
   },
   "contact": {
-    "email": "datalab@itam.mx",
+    "email": "itamdatalab@gmail.com",
     "phone": "+52 55 5628 4000",
     "address": "Río Hondo 1, Progreso Tizapán...",
     "socialMedia": {...}
@@ -241,7 +241,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 Somos estudiantes del ITAM comprometidos con el uso de datos y tecnología para abordar problemáticas sociales, económicas y ambientales.
 
-- **Email**: datalab@itam.mx
+- **Email**: itamdatalab@gmail.com
 - **GitHub**: [github.com/datalab-itam](https://github.com/datalab-itam)
 - **LinkedIn**: [linkedin.com/company/datalab-itam](https://linkedin.com/company/datalab-itam)
 

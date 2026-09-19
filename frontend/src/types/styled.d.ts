@@ -1,18 +1,26 @@
 /**
- * Declaración de tipos para styled-components
- * Extiende DefaultTheme con nuestro tema personalizado
+ * Tipos del tema editorial. Incluye tokens nuevos y alias del tema anterior.
  */
 import 'styled-components';
 
 declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
+      paper: string;
+      paperElevated: string;
+      ink: string;
+      inkMuted: string;
+      teal: string;
+      tealDeep: string;
+      accent: string;
+      hairline: string;
+      overlay: string;
+      white: string;
+      error: string;
+      success: string;
       primary: string;
       secondary: string;
-      accent: string;
-      success: string;
-      warning: string;
-      error: string;
+      accentLegacy: string;
       background: string;
       backgroundAlt: string;
       backgroundDark: string;
@@ -23,6 +31,7 @@ declare module 'styled-components' {
       border: string;
       borderLight: string;
       borderDark: string;
+      warning: string;
     };
     fonts: {
       primary: string;

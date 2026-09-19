@@ -1,12 +1,10 @@
 /**
- * Componente Button - Botón reutilizable
- * Diferentes variantes y tamaños
+ * Botón del sistema: pill, un acento naranja para primario, teal outline.
  */
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Interfaces
 interface ButtonProps {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
@@ -21,155 +19,94 @@ interface ButtonProps {
   className?: string;
 }
 
-// Variantes de estilo
 const buttonVariants = {
   primary: css`
-    background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.accent});
-    color: ${({ theme }) => theme.colors.textWhite};
-    border: 2px solid transparent;
+    background: ${({ theme }) => theme.colors.accent};
+    color: ${({ theme }) => theme.colors.ink};
+    border: 1px solid ${({ theme }) => theme.colors.accent};
 
     &:hover:not(:disabled) {
-      background: linear-gradient(135deg, ${({ theme }) => theme.colors.accent}, ${({ theme }) => theme.colors.primary});
-      transform: translateY(-2px);
-      box-shadow: ${({ theme }) => theme.shadows.lg};
-    }
-
-    &:active:not(:disabled) {
-      transform: translateY(0);
+      background: #c87b16;
+      border-color: #c87b16;
     }
   `,
-  
   secondary: css`
-    background-color: ${({ theme }) => theme.colors.secondary};
-    color: ${({ theme }) => theme.colors.textWhite};
-    border: 2px solid ${({ theme }) => theme.colors.secondary};
+    background: ${({ theme }) => theme.colors.paperElevated};
+    color: ${({ theme }) => theme.colors.ink};
+    border: 1px solid ${({ theme }) => theme.colors.hairline};
 
     &:hover:not(:disabled) {
-      background-color: ${({ theme }) => theme.colors.text};
-      border-color: ${({ theme }) => theme.colors.text};
-      transform: translateY(-2px);
-      box-shadow: ${({ theme }) => theme.shadows.md};
+      border-color: ${({ theme }) => theme.colors.ink};
     }
   `,
-  
   outline: css`
-    background-color: transparent;
-    color: ${({ theme }) => theme.colors.primary};
-    border: 2px solid ${({ theme }) => theme.colors.primary};
+    background: transparent;
+    color: ${({ theme }) => theme.colors.white};
+    border: 1px solid rgba(247, 246, 242, 0.55);
 
     &:hover:not(:disabled) {
-      background-color: ${({ theme }) => theme.colors.primary};
-      color: ${({ theme }) => theme.colors.textWhite};
-      transform: translateY(-2px);
-      box-shadow: ${({ theme }) => theme.shadows.md};
+      border-color: ${({ theme }) => theme.colors.white};
+      background: rgba(247, 246, 242, 0.08);
     }
   `,
-  
   ghost: css`
-    background-color: transparent;
-    color: ${({ theme }) => theme.colors.text};
-    border: 2px solid transparent;
+    background: transparent;
+    color: ${({ theme }) => theme.colors.ink};
+    border: 1px solid transparent;
 
     &:hover:not(:disabled) {
-      background-color: ${({ theme }) => theme.colors.backgroundAlt};
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.teal};
     }
   `,
 };
 
-// Tamaños
 const buttonSizes = {
   sm: css`
-    padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+    padding: 0.45rem 1rem;
     font-size: ${({ theme }) => theme.fontSizes.sm};
     min-height: 36px;
   `,
-  
   md: css`
-    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+    padding: 0.7rem 1.25rem;
     font-size: ${({ theme }) => theme.fontSizes.base};
     min-height: 44px;
   `,
-  
   lg: css`
-    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
-    font-size: ${({ theme }) => theme.fontSizes.lg};
+    padding: 0.85rem 1.5rem;
+    font-size: ${({ theme }) => theme.fontSizes.md};
     min-height: 52px;
   `,
 };
 
-// Styled Component
-const StyledButton = styled(motion.button)<ButtonProps>`
+const StyledButton = styled(motion.button)<ButtonProps & { $fullWidth?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: ${({ theme }) => theme.spacing.sm};
   font-family: ${({ theme }) => theme.fonts.primary};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   cursor: pointer;
-  transition: ${({ theme }) => theme.transitions.fast};
+  transition: ${({ theme }) => theme.transitions.base};
   text-decoration: none;
   white-space: nowrap;
   user-select: none;
-  position: relative;
-  overflow: hidden;
 
-  /* Aplicar variante */
   ${({ variant = 'primary' }) => buttonVariants[variant]}
-
-  /* Aplicar tamaño */
   ${({ size = 'md' }) => buttonSizes[size]}
+  ${({ $fullWidth }) =>
+    $fullWidth &&
+    css`
+      width: 100%;
+    `}
 
-  /* Full width */
-  ${({ fullWidth }) => fullWidth && css`
-    width: 100%;
-  `}
-
-  /* Estado disabled */
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.55;
     cursor: not-allowed;
-    transform: none !important;
-    box-shadow: none !important;
   }
 
-  /* Estado loading */
-  ${({ loading }) => loading && css`
-    pointer-events: none;
-    opacity: 0.8;
-  `}
-
-  /* Focus styles */
-  &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.accent};
-    outline-offset: 2px;
-  }
-`;
-
-const ButtonContent = styled.span<{ loading?: boolean }>`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  opacity: ${({ loading }) => loading ? 0 : 1};
-  transition: opacity 0.2s ease;
-`;
-
-const LoadingSpinner = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  border: 2px solid transparent;
-  border-top: 2px solid currentColor;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-
-  @keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  &:active:not(:disabled) {
+    transform: scale(0.98);
   }
 `;
 
@@ -185,27 +122,21 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   type = 'button',
   className,
-  ...props
 }) => {
   return (
     <StyledButton
       variant={variant}
       size={size}
-      fullWidth={fullWidth}
+      $fullWidth={fullWidth}
       disabled={disabled || loading}
-      loading={loading}
       onClick={onClick}
       type={type}
       className={className}
       whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
-      {...props}
     >
-      <ButtonContent loading={loading}>
-        {leftIcon && leftIcon}
-        {children}
-        {rightIcon && rightIcon}
-      </ButtonContent>
-      {loading && <LoadingSpinner />}
+      {leftIcon}
+      {loading ? 'Enviando' : children}
+      {rightIcon}
     </StyledButton>
   );
 };
