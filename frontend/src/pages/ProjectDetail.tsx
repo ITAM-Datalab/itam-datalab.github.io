@@ -1,48 +1,66 @@
 /**
- * Página de Detalle de Proyecto
- * Información detallada de un proyecto específico
+ * Ficha de un proyecto a partir del catálogo estático.
  */
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import Container from '../components/layout/Container';
+import PageFrame from '../components/layout/PageFrame';
+import Reveal from '../components/common/Reveal';
+import { projects } from '../data/projects';
 
-const ProjectDetailContainer = styled.div`
-  padding: ${({ theme }) => theme.spacing['4xl']} 0;
-  min-height: 80vh;
+const Back = styled(Link)`
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: ${({ theme }) => theme.colors.teal};
 `;
 
-const Container = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 ${({ theme }) => theme.spacing.md};
+const Title = styled.h1`
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  margin-bottom: 1rem;
+`;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    padding: 0 ${({ theme }) => theme.spacing.xl};
-  }
+const Lead = styled.p`
+  color: ${({ theme }) => theme.colors.inkMuted};
+  font-size: 1.15rem;
+  margin-bottom: 2rem;
+`;
+
+const Photo = styled.img`
+  width: 100%;
+  max-width: 820px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
 `;
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const project = projects.find((item) => item.id === id);
+
+  if (!project) {
+    return (
+      <PageFrame>
+        <Container>
+          <Back to="/proyectos">Volver a proyectos</Back>
+          <Title>Proyecto no encontrado</Title>
+          <Lead>Ese proyecto no está en el catálogo actual.</Lead>
+        </Container>
+      </PageFrame>
+    );
+  }
 
   return (
-    <ProjectDetailContainer>
+    <PageFrame>
       <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1>Detalle del Proyecto</h1>
-          <p>ID del proyecto: {id}</p>
-          
-          <div style={{ textAlign: 'center', padding: '60px 0' }}>
-            <h2>Página en construcción</h2>
-            <p>Estamos trabajando en esta sección.</p>
-          </div>
-        </motion.div>
+        <Reveal>
+          <Back to="/proyectos">Volver a proyectos</Back>
+          <Title>{project.title}</Title>
+          <Lead>{project.summary}</Lead>
+          <Photo src={project.image} alt="" />
+        </Reveal>
       </Container>
-    </ProjectDetailContainer>
+    </PageFrame>
   );
 };
 

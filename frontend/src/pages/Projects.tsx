@@ -1,72 +1,90 @@
 /**
- * Página de Proyectos
- * Muestra todos los proyectos de DataLab
+ * Listado de proyectos. Misma familia visual que el teaser del Home.
  */
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import Container from '../components/layout/Container';
+import PageFrame from '../components/layout/PageFrame';
+import Reveal from '../components/common/Reveal';
+import { projects } from '../data/projects';
 
-const ProjectsContainer = styled.div`
-  padding: ${({ theme }) => theme.spacing['4xl']} 0;
-  min-height: 80vh;
+const Title = styled.h1`
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  margin-bottom: 0.75rem;
 `;
 
-const Container = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 ${({ theme }) => theme.spacing.md};
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    padding: 0 ${({ theme }) => theme.spacing.xl};
-  }
-`;
-
-const Header = styled.div`
-  text-align: center;
+const Lead = styled.p`
+  color: ${({ theme }) => theme.colors.inkMuted};
   margin-bottom: ${({ theme }) => theme.spacing['3xl']};
+`;
 
-  h1 {
-    font-size: ${({ theme }) => theme.fontSizes['5xl']};
-    margin-bottom: ${({ theme }) => theme.spacing.md};
-    background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.accent});
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+const List = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Row = styled(Link)`
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.75rem 0;
+  border-top: 1px solid ${({ theme }) => theme.colors.hairline};
+  color: inherit;
+  align-items: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    grid-template-columns: 220px 1fr;
   }
 
-  p {
-    font-size: ${({ theme }) => theme.fontSizes.lg};
-    color: ${({ theme }) => theme.colors.textLight};
-    max-width: 600px;
-    margin: 0 auto;
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &:last-child {
+    border-bottom: 1px solid ${({ theme }) => theme.colors.hairline};
   }
 `;
 
-const Projects: React.FC = () => {
-  return (
-    <ProjectsContainer>
-      <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <Header>
-            <h1>Nuestros Proyectos</h1>
-            <p>
-              Explora los proyectos que hemos desarrollado para abordar problemáticas 
-              sociales, económicas y ambientales.
-            </p>
-          </Header>
-          
-          <div style={{ textAlign: 'center', padding: '60px 0' }}>
-            <h2>Página en construcción</h2>
-            <p>Estamos trabajando en esta sección. ¡Pronto podrás ver todos nuestros proyectos!</p>
-          </div>
-        </motion.div>
-      </Container>
-    </ProjectsContainer>
-  );
-};
+const Thumb = styled.img`
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+`;
+
+const Name = styled.h2`
+  font-size: 1.6rem;
+  margin-bottom: 0.4rem;
+`;
+
+const Summary = styled.p`
+  color: ${({ theme }) => theme.colors.inkMuted};
+  margin: 0;
+`;
+
+const Projects: React.FC = () => (
+  <PageFrame>
+    <Container>
+      <Reveal>
+        <Title>Proyectos</Title>
+        <Lead>
+          Software, mapas y prototipos para problemáticas sociales, económicas y ambientales.
+        </Lead>
+        <List>
+          {projects.map((project) => (
+            <Row key={project.id} to={project.href}>
+              <Thumb src={project.image} alt="" />
+              <div>
+                <Name>{project.title}</Name>
+                <Summary>{project.summary}</Summary>
+              </div>
+            </Row>
+          ))}
+        </List>
+      </Reveal>
+    </Container>
+  </PageFrame>
+);
 
 export default Projects;

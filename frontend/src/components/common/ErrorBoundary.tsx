@@ -27,11 +27,6 @@ const ErrorContainer = styled.div`
   text-align: center;
 `;
 
-const ErrorIcon = styled.div`
-  font-size: ${({ theme }) => theme.fontSizes['6xl']};
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-`;
-
 const ErrorTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes['3xl']};
   color: ${({ theme }) => theme.colors.error};
@@ -74,14 +69,10 @@ const ReloadButton = styled.button`
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   font-size: ${({ theme }) => theme.fontSizes.base};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  color: ${({ theme }) => theme.colors.textWhite};
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.colors.primary},
-    ${({ theme }) => theme.colors.accent}
-  );
+  color: ${({ theme }) => theme.colors.white};
+  background: ${({ theme }) => theme.colors.teal};
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   cursor: pointer;
   transition: ${({ theme }) => theme.transitions.base};
   
@@ -139,7 +130,6 @@ class ErrorBoundary extends Component<Props, State> {
       // Renderizar UI de error por defecto
       return (
         <ErrorContainer>
-          <ErrorIcon>⚠️</ErrorIcon>
           <ErrorTitle>Algo salió mal</ErrorTitle>
           <ErrorMessage>
             Lo sentimos, ha ocurrido un error inesperado. 
@@ -147,13 +137,13 @@ class ErrorBoundary extends Component<Props, State> {
           </ErrorMessage>
           
           <ReloadButton onClick={this.handleReload}>
-            Recargar Página
+            Recargar página
           </ReloadButton>
 
           {/* Mostrar detalles del error solo en desarrollo */}
           {process.env.NODE_ENV === 'development' && this.state.error && (
             <ErrorDetails>
-              <summary>Detalles del Error (solo en desarrollo)</summary>
+              <summary>Detalles del error (solo en desarrollo)</summary>
               <pre>{this.state.error.toString()}</pre>
               <pre>{this.state.error.stack}</pre>
             </ErrorDetails>

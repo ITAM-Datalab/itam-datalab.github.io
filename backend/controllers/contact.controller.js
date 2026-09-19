@@ -54,7 +54,7 @@ const getContactInfo = async (req, res, next) => {
     if (!contactDoc) {
       // Información por defecto
       const defaultContact = {
-        email: 'datalab@itam.mx',
+        email: 'itamdatalab@gmail.com',
         phone: '+52 55 5628 4000',
         address: 'Río Hondo 1, Progreso Tizapán, 01080 Ciudad de México, CDMX',
         socialMedia: {

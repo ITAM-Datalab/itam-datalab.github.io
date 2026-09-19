@@ -32,9 +32,12 @@ const App: React.FC = () => {
         <Router>
           <ScrollToTop />
           <div className="App">
+            <a className="sr-only" href="#contenido">
+              Saltar al contenido
+            </a>
             <Header />
             <ErrorBoundary>
-              <main>
+              <main id="contenido">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/sobre-nosotros" element={<About />} />
